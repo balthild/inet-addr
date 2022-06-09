@@ -1,24 +1,31 @@
 {
-  "name": "rollup-starter-lib",
-  "version": "1.0.0",
-  "main": "dist/how-long-till-lunch.cjs.js",
-  "module": "dist/how-long-till-lunch.esm.js",
-  "browser": "dist/how-long-till-lunch.umd.js",
+  "name": "inet-addr",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/inet-addr.cjs.js",
+  "module": "dist/inet-addr.esm.js",
+  "browser": "dist/inet-addr.umd.js",
   "dependencies": {
-    "ms": "^2.0.0"
+    "big-integer": "^1.6.51"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-node-resolve": "^7.0.0",
-    "rollup": "^1.29.0"
+    "@rollup/plugin-typescript": "^8.3.2",
+    "rollup": "^1.29.0",
+    "ts-node": "^10.8.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.3"
   },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "node test/test.js",
-    "pretest": "npm run build"
+    "test": "node --experimental-specifier-resolution=node --loader ts-node/esm test/test.ts",
+    "pretest": "yarn build",
+    "prepublishOnly": "yarn build"
   },
   "files": [
     "dist"
-  ]
+  ],
+  "packageManager": "yarn@3.2.1"
 }
