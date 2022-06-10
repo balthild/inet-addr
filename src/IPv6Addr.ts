@@ -7,7 +7,16 @@ const IPv6_PREFIX_LEN_PATTERN = /^(?:[0-9]|[1-9][0-9]|1[01][0-9]|12[0-8])$/;
 
 const IPv6_INT_ALL_ONES = bigInt.one.shiftLeft(128).prev();
 
+/**
+ * The class represents an IPv6 address.
+ */
 export class IPv6Addr extends IPAddr<IPv6Addr> {
+    /**
+     * Parse an IPv6 address string and return an instance of `IPv6Addr`.
+     *
+     * If the parameter `s` is not a valid string representation of an IPv6 address,
+     * the function will throw an error.
+     */
     static parse(s: string) {
         let parts: string[];
 
@@ -44,6 +53,17 @@ export class IPv6Addr extends IPAddr<IPv6Addr> {
         return new IPv6Addr(value);
     }
 
+    /**
+     * Construct the subnet mask address corresonding to the given prefix length.
+     *
+     * If the `prefixLen` parameter is not a number between 0 and 128 (inclusive),
+     * the function will throw an error.
+     *
+     * ```typescript
+     * const mask = IPv6Addr.netMask(64);
+     * assert(mask.toString() === 'ffff:ffff:ffff:ffff::');
+     * ```
+     */
     static netMask(prefixLen: number | string) {
         if (typeof prefixLen === 'string') {
             if (!IPv6_PREFIX_LEN_PATTERN.test(prefixLen)) {
@@ -61,39 +81,66 @@ export class IPv6Addr extends IPAddr<IPv6Addr> {
         return new IPv6Addr(mask);
     }
 
+    /**
+     * @ignore
+     */
     protected readonly value: BigInteger;
 
+    /**
+     * Construct an IPv6 address from the given integer value.
+     */
     constructor(value: BigInteger) {
         super();
         this.value = value.and(IPv6_INT_ALL_ONES);
     }
 
+    /**
+     * @inheritdoc
+     */
     newInstance(value: bigInt.BigInteger) {
         return new IPv6Addr(value);
     }
 
+    /**
+     * @inheritdoc
+     */
     isSameType(other: object): boolean {
         return other instanceof IPv6Addr;
     }
 
-    assertSameType(other: object): void {
-        if (!this.isSameType(other)) {
-            throw new Error(`${other} is not an instance of IPv6Addr`);
-        }
-    }
-
+    /**
+     * @inheritdoc
+     */
     isMin() {
         return this.value.eq(0);
     }
 
+    /**
+     * @inheritdoc
+     */
     isMax(): boolean {
         return this.value.eq(IPv6_INT_ALL_ONES);
     }
 
+    /**
+     * @inheritdoc
+     */
     toInt() {
         return this.value;
     }
 
+    /**
+     * Get the string representation of the address.
+     *
+     * By default, the function returns the normalized string defined in RFC 5952.
+     * When the `long` parameter is `true`, the function returns a long representation.
+     *
+     * ```typescript
+     * const addr = IPv6Addr.parse('2001:db8:0:0:0:0:0:1');
+     * assert(addr.toString() === '2001:db8::1');
+     * assert(addr.toString(true) === '2001:0db8:0000:0000:0000:0000:0000:0001');
+     * ```
+     */
     toString(long = false) {
         const parts: string[] = [];
 

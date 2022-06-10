@@ -11,10 +11,10 @@ yarn add inet-addr
 npm install inet-addr
 ```
 
-## Usage
+## Documentation
 
-TODO: tsdoc
+See https://balthild.github.io/inet-addr
 
 ## License
 
-[MIT License](LICENSE).
+[MIT License](LICENSE)
