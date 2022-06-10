@@ -13,6 +13,8 @@ assert(IPv4Addr.parse('192.168.1.2').gt(IPv4Addr.parse('192.168.1.1')));
 assert(IPv4Addr.parse('192.168.1.2').gte(IPv4Addr.parse('192.168.1.1')));
 assert(IPv4Addr.parse('192.168.1.2').gte(IPv4Addr.parse('192.168.1.2')));
 
+assert(IPv4Addr.parse('192.168.000.001').toString() === '192.168.0.1');
+
 assert.throws(() => IPv4Addr.parse('192.168.1.256'));
 assert.throws(() => IPv4Addr.parse('192.168.1.-1'));
 assert.throws(() => IPv4Addr.parse('192.168.1.CC'));

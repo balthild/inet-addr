@@ -5,7 +5,7 @@ export class IPPool<T extends IPAddr<T>> {
     protected ranges: IPRange<T>[];
 
     constructor(ranges: IPRange<T>[] = []) {
-        this.ranges = ranges;
+        this.ranges = [...ranges];
         this.ranges.sort((a, b) => a.getStart().compare(b.getStart()));
     }
 

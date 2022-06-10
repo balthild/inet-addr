@@ -105,36 +105,44 @@ export class IPv6Addr extends IPAddr<IPv6Addr> {
 
         if (long) {
             return parts.map(x => x.padStart(4, '0')).join(':');
-        } else {
-            // Find consecutive zeros
-            // [pos, count]
-            const zeroes: [number, number][] = [];
+        }
 
-            for (let i = 0; i < 8; i++) {
-                if (parts[i] !== '0') {
-                    continue;
+        // Find consecutive zero parts
+        // [pos, count]
+        const zeroParts: [number, number][] = [];
+
+        for (let i = 0; i < 8; i++) {
+            if (parts[i] !== '0') {
+                // RFC 5952 4.2.2. Do not compress non-consecutive zero parts
+                const lastZeroPart = zeroParts[zeroParts.length - 1];
+                if (lastZeroPart && lastZeroPart[1] <= 1) {
+                    zeroParts.pop();
                 }
 
-                // No need to check if i > 0, because array[-1] === undefined
-                if (parts[i - 1] !== '0') {
-                    // Start of zeroes or start of the parts array
-                    zeroes.push([i, 1]);
-                } else {
-                    // Continuation of zeroes
-                    zeroes[zeroes.length - 1][1]++;
-                }
+                continue;
             }
 
-            if (zeroes.filter((x) => x[1] > 1).length === 0) {
-                return parts.join(':');
+            // Don't need to check if i > 0, because array[-1] === undefined
+            if (parts[i - 1] !== '0') {
+                // Start of zero parts
+                zeroParts.push([i, 1]);
             } else {
-                const [pos, count] = zeroes.sort((a, b) => b[1] - a[1])[0];
-
-                const leftParts = parts.slice(0, pos);
-                const rightParts = parts.slice(pos + count);
-
-                return leftParts.join(':') + '::' + rightParts.join(':');
+                // Continuation of zero parts
+                zeroParts[zeroParts.length - 1][1]++;
             }
         }
+
+        if (zeroParts.length === 0) {
+            // Don't need to compress zero parts
+            return parts.join(':');
+        }
+
+        // RFC 5952 4.2.3. Compress the consecutive zero part that is longest and appears earlier
+        const [pos, count] = zeroParts.reduce((a, b) => a[1] >= b[1] ? a : b);
+
+        const left = parts.slice(0, pos).join(':');
+        const right = parts.slice(pos + count).join(':');
+
+        return `${left}::${right}`;
     }
 }

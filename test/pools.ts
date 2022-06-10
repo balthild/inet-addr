@@ -5,8 +5,8 @@ import { IPRange } from '../src/IPRange';
 import { IPv4Addr } from '../src/IPv4Addr';
 
 const pool = new IPPool()
-.append(IPRange.parseCIDR('192.168.1.0/24'))
-.append(IPRange.parseCIDR('192.168.2.0/24'));
+    .append(IPRange.parseCIDR('192.168.1.0/24'))
+    .append(IPRange.parseCIDR('192.168.2.0/24'));
 
 assert(pool.getRanges().length === 2);
 assert(pool.containsAddr(IPv4Addr.parse('192.168.1.233')));
