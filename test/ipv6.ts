@@ -9,6 +9,10 @@ assert(IPv6Addr.parse('2001::').eq(IPv6Addr.parse('2001:0:0:0:0:0:0:0')));
 assert(IPv6Addr.parse('::1').eq(IPv6Addr.parse('0:0:0:0:0:0:0:1')));
 assert(IPv6Addr.parse('::').eq(IPv6Addr.parse('0:0:0:0:0:0:0:0')));
 
+assert(IPv6Addr.netMask(0).eq(IPv6Addr.parse('::')));
+assert(IPv6Addr.netMask(64).eq(IPv6Addr.parse('ffff:ffff:ffff:ffff::')));
+assert(IPv6Addr.netMask(128).eq(IPv6Addr.parse('ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff')));
+
 assert(IPv6Addr.parse('2001::1').lt(IPv6Addr.parse('2001::2')));
 assert(IPv6Addr.parse('2001::1').lte(IPv6Addr.parse('2001::2')));
 assert(IPv6Addr.parse('2001::1').lte(IPv6Addr.parse('2001::1')));
