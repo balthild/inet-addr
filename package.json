@@ -1,6 +1,6 @@
 {
   "name": "inet-addr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Utilities for internet networking addresses. Supports IPv4 and IPv6.",
   "license": "MIT",
   "repository": "github:balthild/inet-addr",
