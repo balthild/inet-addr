@@ -99,7 +99,7 @@ export class IPv6Addr extends IPAddr<IPv6Addr> {
 
         let step = this.value;
         for (let i = 7; i >= 0; i--) {
-            parts[i] = step.and(0xFF).toString(16);
+            parts[i] = step.and(0xFFFF).toString(16, '0123456789abcdef');
             step = step.shiftRight(16);
         }
 

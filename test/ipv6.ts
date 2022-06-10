@@ -16,6 +16,11 @@ assert(IPv6Addr.parse('2001::2').gt(IPv6Addr.parse('2001::1')));
 assert(IPv6Addr.parse('2001::2').gte(IPv6Addr.parse('2001::1')));
 assert(IPv6Addr.parse('2001::2').gte(IPv6Addr.parse('2001::2')));
 
+assert(IPv6Addr.parse('2001::1').toString() === '2001::1');
+assert(IPv6Addr.parse('2001:0:0:1:0:0:0:1').toString() === '2001:0:0:1::1');
+assert(IPv6Addr.parse('2001::AB:CD:EF').toString() === '2001::ab:cd:ef');
+assert(IPv6Addr.parse('2001::1').toString(true) === '2001:0000:0000:0000:0000:0000:0000:0001');
+
 assert.throws(() => IPv6Addr.parse('2001:1'));
 assert.throws(() => IPv6Addr.parse(':1:'));
 assert.throws(() => IPv6Addr.parse('2001::000FFF'));
