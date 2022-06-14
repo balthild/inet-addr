@@ -9,6 +9,7 @@
     },
     "typedocOptions": {
         "entryPoints": ["src/lib.ts"],
-        "out": "doc"
-    }
+        "out": "docs",
+        "theme": "oxide",
+    },
 }
