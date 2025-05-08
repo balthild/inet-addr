@@ -2,7 +2,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import dts from "rollup-plugin-dts";
-import pkg from './package.json';
+import pkg from './package.json' with { type: 'json' };
 
 export default [
     // Browser-friendly UMD build.

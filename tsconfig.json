@@ -10,6 +10,7 @@
     "typedocOptions": {
         "entryPoints": ["src/lib.ts"],
         "out": "docs",
+        "plugin": ["typedoc-theme-oxide"],
         "theme": "oxide",
     },
 }
